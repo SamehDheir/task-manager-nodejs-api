@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors")
+const cookieParser = require("cookie-parser");
+
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth.routes");
@@ -21,8 +23,10 @@ app.use(
 // Connect to MongoDB
 connectDB();
 
+
 // Middleware to parse JSON request bodies
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);

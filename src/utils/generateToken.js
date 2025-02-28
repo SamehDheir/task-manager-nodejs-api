@@ -11,5 +11,23 @@ exports.generateToken = (user) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     }
   );
+
   
+  
+};
+
+exports.verifyToken = (req, res) => {
+  const token = req.cookies.token; 
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  jwt.verify(token, "your-secret-key", (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Invalid or expired token" });
+    }
+
+    res.json({ user: decoded });
+  });
 };
