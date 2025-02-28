@@ -24,6 +24,12 @@ exports.login = async (req, res, next) => {
     }
 
     const token = generateToken(user);
+     res.cookie("token", token, {
+       httpOnly: true,
+       secure: process.env.NODE_ENV === "production",
+       sameSite: "Strict",
+       maxAge: process.env.JWT_EXPIRES_IN,
+     });
     if (!token) {
       return res.status(500).json({ message: "Failed to generate token" });
     }
