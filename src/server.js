@@ -14,11 +14,13 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://172.20.10.10:3000", // ضع هنا عنوان الـ Frontend
+    origin: "http://172.20.10.10:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // لتمكين إرسال الكوكيز مع الطلبات
+    credentials: true,
   })
 );  
+app.options('*', cors()); 
+
 
 // Connect to MongoDB
 connectDB();
