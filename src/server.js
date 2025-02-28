@@ -10,7 +10,13 @@ require("./services/taskReminder");
 
 const app = express();
 
-app.use(cors());  
+app.use(
+  cors({
+    origin: "http://172.20.10.10:3000", // ضع هنا عنوان الـ Frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // لتمكين إرسال الكوكيز مع الطلبات
+  })
+);  
 
 // Connect to MongoDB
 connectDB();
