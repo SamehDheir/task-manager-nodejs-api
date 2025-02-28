@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
        httpOnly: true,
        secure: process.env.NODE_ENV === "production",
        sameSite: "Strict",
-       maxAge: process.env.JWT_EXPIRES_IN,
+       maxAge: 36000,
      });
     if (!token) {
       return res.status(500).json({ message: "Failed to generate token" });
