@@ -81,8 +81,6 @@ exports.deleteTask = async (req, res, next) => {
 };
 
 // Get all tasks for a user
-// src/controllers/task.controller.js
-
 exports.getTasks = async (req, res, next) => {
   const userId = req.user.id;
 

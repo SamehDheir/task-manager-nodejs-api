@@ -1,7 +1,6 @@
 const express = require("express");
-const cors = require("cors")
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth.routes");
@@ -14,17 +13,13 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://172.20.10.10:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
-);  
-app.options('*', cors()); 
-
+);
 
 // Connect to MongoDB
 connectDB();
-
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
@@ -32,8 +27,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/tasks", authMiddleware, taskRoutes); 
-
+app.use("/api/tasks", authMiddleware, taskRoutes);
 
 // Middleware to parse JSON request bodies
 app.use(express.json());

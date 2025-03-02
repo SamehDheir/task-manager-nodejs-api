@@ -8,15 +8,16 @@ const {
   getTasks,
   getTasksByPriority,
 } = require("../controllers/task.controller");
+const { verifyToken } = require("../utils/generateToken");
 
-router.post("/", createTask);
+router.post("/", verifyToken, createTask);
 
-router.put("/:taskId", updateTask);
+router.put("/:taskId", verifyToken, updateTask);
 
-router.delete("/:taskId", deleteTask);
+router.delete("/:taskId", verifyToken, deleteTask);
 
-router.get("/", getTasks);
+router.get("/", verifyToken, getTasks);
 
-router.get("/priority", getTasksByPriority);
+router.get("/priority", verifyToken, getTasksByPriority);
 
 module.exports = router;

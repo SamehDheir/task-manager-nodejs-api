@@ -11,23 +11,19 @@ exports.generateToken = (user) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     }
   );
-
-  
-  
 };
 
-exports.verifyToken = (req, res) => {
-  const token = req.cookies.token; 
-
+exports.verifyToken = (req, res, next) => {
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "No token provided" });
+    return res.status(401).send("Access denied. No token provided.");
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      return res.status(401).json({ message: "Invalid or expired token" });
+      return res.status(403).send("Invalid token.");
     }
-
-    res.json({ user: decoded });
+    req.user = user;
+    next();
   });
 };

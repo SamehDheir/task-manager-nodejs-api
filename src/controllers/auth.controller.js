@@ -24,12 +24,11 @@ exports.login = async (req, res, next) => {
     }
 
     const token = generateToken(user);
-     res.cookie("token", token, {
-       httpOnly: true,
-       secure: process.env.NODE_ENV === "production",
-       sameSite: "Strict",
-       maxAge: 36000,
-     });
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "Lax",
+      maxAge: 604800000,
+    });
     if (!token) {
       return res.status(500).json({ message: "Failed to generate token" });
     }
@@ -69,4 +68,22 @@ exports.register = async (req, res, next) => {
   }
 };
 
+exports.dashboard = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    res.json({ user: req.user });
+  } catch (error) {
+    next(error);
+  }
+};
 
+exports.logout = async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+};
